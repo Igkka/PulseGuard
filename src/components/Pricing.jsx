@@ -1,7 +1,8 @@
 "use client"
 
 import "./style/Pricing.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getUsers, getSession, saveUsers } from "@/lib/auth";
 
 const plans = [
     {
@@ -28,39 +29,48 @@ const plans = [
 ];
 
 export default function PricingPage() {
+    const [currentPlan, setCurrentPlan] = useState("free");
+    const [session, setSession] = useState({ isAuth: false, username: "", plan: "free" });
 
-    const choisePlan = (plantype) => {
-        
-    const users = JSON.parse(localStorage.getItem("users"))
-    const currentPlan = localStorage.getItem("plan");
+    useEffect(() => {
+        const sessionData = getSession();
+        setSession(sessionData);
+        setCurrentPlan(sessionData.plan || "free");
+    }, []);
 
-    if(currentPlan == "pro" && plantype == "free"){
-        users.plantype = "pro"
-        alert("You cannot switch from the Pro plan to the Free plan.")
-        return
-    }else if(plantype == currentPlan){
-        currentPlan == plantype
-        alert("You already have this plan.")
-        return
-    }else{
-        alert(`You selected the ${plantype} plan!`)
-        window.location.href = "/"
-    }
+    const choosePlan = (plantype) => {
+        if (!session.isAuth) {
+            alert("Please log in first!");
+            return;
+        }
 
+        const users = getUsers();
+        const user = users.find((u) => u.username === session.username);
+        const storedPlan = session.plan || "free";
 
-    if (!users) {
-        alert("Please log in first!")
-        return
-    }
+        if (!user) {
+            alert("Please log in first!");
+            return;
+        }
 
+        if (storedPlan === "pro" && plantype === "free") {
+            alert("You cannot switch from the Pro plan to the Free plan.");
+            return;
+        }
 
-    users.plan = plantype
-    localStorage.setItem("users", JSON.stringify(users));
-    localStorage.setItem("plan", plantype);
+        if (plantype === storedPlan) {
+            alert("You already have this plan.");
+            return;
+        }
 
+        user.plan = plantype;
+        saveUsers(users);
+        localStorage.setItem("plan", plantype);
+        setCurrentPlan(plantype);
 
-}
-
+        alert(`You selected the ${plantype} plan!`);
+        window.location.href = "/";
+    };
 
     return (
         <section
@@ -70,33 +80,23 @@ export default function PricingPage() {
             <h2>Rates</h2>
 
             <div className="cards">
-
                 {plans.map((plan) => (
                     <div
                         className="card"
                         key={plan.title}
                     >
                         <h3>{plan.title}</h3>
-
                         <p>{plan.price}</p>
-
                         <ul>
-
                             {plan.features.map((item) => (
-                                <li key={item}>
-                                    {item}
-                                </li>
+                                <li key={item}>{item}</li>
                             ))}
-
                         </ul>
-
-                        <button onClick={() => choisePlan(plan.title.toLowerCase())}>
+                        <button onClick={() => choosePlan(plan.title.toLowerCase())}>
                             Select
                         </button>
-
                     </div>
                 ))}
-
             </div>
         </section>
     );

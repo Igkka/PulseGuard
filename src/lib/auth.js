@@ -1,6 +1,28 @@
+import CryptoJS from "crypto-js";
+
 export const DEFAULT_AVATAR = "/users/user24px.svg";
 
 const USERS_KEY = "users";
+const USERS_SECRET = "CybersecurityAppUserSecret2026";
+
+function encryptUsers(users) {
+  return CryptoJS.AES.encrypt(JSON.stringify(users), USERS_SECRET).toString();
+}
+
+function decryptUsers(data) {
+  try {
+    const bytes = CryptoJS.AES.decrypt(data, USERS_SECRET);
+    const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+    return decrypted ? JSON.parse(decrypted) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function saveUsers(users) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(USERS_KEY, encryptUsers(users));
+}
 
 function migrateLegacyUser() {
   const legacy = localStorage.getItem("user");
@@ -21,7 +43,7 @@ function migrateLegacyUser() {
         avatar: oldUser.avatar || DEFAULT_AVATAR,
         plan: oldUser.plan || "free",
       });
-      localStorage.setItem(USERS_KEY, JSON.stringify(users));
+      saveUsers(users);
     }
   } catch {}
 
@@ -31,8 +53,18 @@ function migrateLegacyUser() {
 export function getUsers() {
   if (typeof window === "undefined") return [];
   migrateLegacyUser();
+
   const data = localStorage.getItem(USERS_KEY);
-  return data ? JSON.parse(data) : [];
+  if (!data) return [];
+
+  const decrypted = decryptUsers(data);
+  if (decrypted) return decrypted;
+
+  try {
+    return JSON.parse(data);
+  } catch {
+    return [];
+  }
 }
 
 export function registerUser({ username, email, password, avatar }) {
@@ -55,7 +87,7 @@ export function registerUser({ username, email, password, avatar }) {
   };
 
   users.push(user);
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  saveUsers(users);
   setSession(user);
 
   return { success: true, user };
