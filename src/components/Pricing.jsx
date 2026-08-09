@@ -2,7 +2,7 @@
 
 import "./style/Pricing.css";
 import { useEffect, useState } from "react";
-import { getUsers, getSession, saveUsers } from "@/lib/auth";
+import { getUsers, getSession, saveUsers, setStorageItem } from "@/lib/auth";
 
 const plans = [
     {
@@ -65,7 +65,7 @@ export default function PricingPage() {
 
         user.plan = plantype;
         saveUsers(users);
-        localStorage.setItem("plan", plantype);
+        setStorageItem("plan", plantype);
         setCurrentPlan(plantype);
 
         alert(`You selected the ${plantype} plan!`);

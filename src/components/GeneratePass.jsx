@@ -11,8 +11,7 @@ export default function GeneratePass(){
     const [newPassword,setNewPassword] = useState("")
 
     const handleGenerate = () => {
-
-        let generatePassResult = ""
+        let generatePassResult = "";
         const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
 
         if (!spendCoin()) {
@@ -20,31 +19,34 @@ export default function GeneratePass(){
             return;
         }
 
-        for(let i = 0;i < 16;i++){
-            generatePassResult += chars[Math.floor(Math.random() *  chars.length)]
+        for (let i = 0; i < 16; i++) {
+            generatePassResult += chars[Math.floor(Math.random() * chars.length)];
         }
-        
-        setNewPassword(generatePassResult)
+
+        setNewPassword(generatePassResult);
     }
 
     const handleCopy = async () => {
-        await navigator.clipboard.writeText(newPassword);
-        alert("Password copied!");
+        if (!newPassword) {
+            alert("Generate a password first!");
+            return;
+        }
+
+        try {
+            await navigator.clipboard.writeText(newPassword);
+            alert("Password copied!");
+        } catch {
+            alert("Copy failed. Please copy manually.");
+        }
     }
 
     return(
         <section className="genpass">
-
             <h2>Generate Password</h2>
-
             <div className="genpasscontent">
-
-            <p className="newgenpass">{newPassword == ""? "Your Password Here" : newPassword} <Copy className="copybtn" onClick={handleCopy}/></p>
-
-            <button className="createpassbtn" onClick={()=>handleGenerate()}>Generate</button>
-
+                <p className="newgenpass">{newPassword === "" ? "Your Password Here" : newPassword} <Copy className="copybtn" onClick={handleCopy}/></p>
+                <button className="createpassbtn" onClick={handleGenerate}>Generate</button>
             </div>
-
         </section>
     )
 }

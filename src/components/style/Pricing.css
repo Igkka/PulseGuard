@@ -1,12 +1,29 @@
 .cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    display: flex;
     gap:35px;
+    overflow-x: auto;
+    padding-bottom: 20px;
+    scroll-snap-type: x mandatory;
+}
+
+.cards::-webkit-scrollbar{
+    height: 10px;
+}
+
+.cards::-webkit-scrollbar-track{
+    background: rgba(255,255,255,.05);
+}
+
+.cards::-webkit-scrollbar-thumb{
+    background: rgba(56,255,128,.45);
+    border-radius: 999px;
 }
 
 .card{
     display: flex;
     flex-direction: column;
+    min-width: 280px;
+    max-width: 320px;
     height: 100%;
     padding:40px;
     border-radius:30px;
@@ -17,6 +34,7 @@
     opacity: 0;
     transform: translateY(40px);
     animation: show .8s ease forwards;
+    scroll-snap-align: start;
 }
 
 .rates {

@@ -1,39 +1,28 @@
 "use client"
 import "@/components/style/Balance.css"
 import { useEffect, useState } from "react"
-import { spendCoin } from "./SpendCoins"
+import { getStorageItem, setStorageItem } from "@/lib/auth"
 
 export default function UserBalance(){
 
-    const [balanceUser,setBalanceUser] = useState("")
+    const [balanceUser,setBalanceUser] = useState(0)
 
     useEffect(()=>{
-
-        const balance = localStorage.getItem("balance");
+        let balance = getStorageItem("balance", null);
 
         if (balance === null) {
-            const plan = localStorage.getItem("plan");
-
-            if (plan === "pro") {
-                localStorage.setItem("balance", "100");
-            } else {
-                localStorage.setItem("balance", "10");
-            }
+            const plan = getStorageItem("plan", "free");
+            balance = plan === "pro" ? "100" : "10";
+            setStorageItem("balance", balance);
         }
 
-        localStorage.setItem("balance",balance)
-        setBalanceUser(balance)
-
-
+        setBalanceUser(balance ? Number(balance) : 0)
     },[])
 
-
-
-
-return(
-    <div className="balancecontent">
-        <p>Balance: {balanceUser}</p>
-    </div>
-)
+    return(
+        <div className="balancecontent">
+            <p>Balance: {balanceUser}</p>
+        </div>
+    )
 
 }

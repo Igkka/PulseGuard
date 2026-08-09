@@ -4,6 +4,7 @@ import "@/components/style/PasswordStorage.css"
 import { useState } from "react"
 import { useEffect } from "react"
 import { spendCoin } from "./SpendCoins"
+import { getStorageItem, setStorageItem } from "@/lib/auth"
 
 export default function PassStorage(){
 
@@ -15,12 +16,11 @@ export default function PassStorage(){
     })
 
     useEffect(() => {
-        
-    const saved = JSON.parse(localStorage.getItem("passwords"));
+        const saved = getStorageItem("passwords", []);
 
-    if (saved) {
-        setPasswords(saved);
-    }
+        if (Array.isArray(saved)) {
+            setPasswords(saved);
+        }
 
     }, []);
 
@@ -53,7 +53,7 @@ export default function PassStorage(){
     };
         
         const updatedPasswords = [...passwords, newStorage];
-        localStorage.setItem("passwords",JSON.stringify(updatedPasswords));
+        setStorageItem("passwords", updatedPasswords);
         setPasswords(updatedPasswords);
         window.location.href = "/pro"
 
@@ -75,7 +75,7 @@ export default function PassStorage(){
         });
 
         setPasswords(updatedPasswords);
-        localStorage.setItem("passwords", JSON.stringify(updatedPasswords));
+        setStorageItem("passwords", updatedPasswords);
 
     }
 

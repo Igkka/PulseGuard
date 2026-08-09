@@ -1,7 +1,9 @@
 "use client"
 
+import { getStorageItem, setStorageItem } from "@/lib/auth"
+
 export const getCoins = () => {
-    return Number(localStorage.getItem("balance"))
+    return Number(getStorageItem("balance", 0))
 }
 
 export const spendCoin = () =>{
@@ -13,7 +15,7 @@ export const spendCoin = () =>{
 
     const newBalance = balance - 1
 
-    localStorage.setItem("balance", newBalance || 0) 
+    setStorageItem("balance", newBalance || 0) 
 
     return true
 

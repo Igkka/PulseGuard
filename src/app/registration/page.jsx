@@ -6,6 +6,7 @@ import Link from "next/link";
 import {
     DEFAULT_AVATAR,
     registerUser,
+    setStorageItem,
 } from "@/lib/auth";
 
 export default function Registration() {
@@ -44,10 +45,10 @@ export default function Registration() {
         }
 
         // Новый аккаунт получает Free-план
-        localStorage.setItem("plan", "free");
+        setStorageItem("plan", "free");
 
         // Новый аккаунт получает 15 кредитов
-        localStorage.setItem("balance", "15");
+        setStorageItem("balance", "15");
 
         alert("You are registered");
 

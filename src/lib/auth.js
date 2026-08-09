@@ -2,26 +2,56 @@ import CryptoJS from "crypto-js";
 
 export const DEFAULT_AVATAR = "/users/user24px.svg";
 
-const USERS_KEY = "users";
-const USERS_SECRET = "CybersecurityAppUserSecret2026";
+const USERS_KEY = process.env.KEY;
+const STORAGE_SECRET = process.env.STORAGE_Password;
 
-function encryptUsers(users) {
-  return CryptoJS.AES.encrypt(JSON.stringify(users), USERS_SECRET).toString();
+function encryptStorageValue(value) {
+  return CryptoJS.AES.encrypt(JSON.stringify(value), STORAGE_SECRET).toString();
 }
 
-function decryptUsers(data) {
+function decryptStorageValue(data) {
+  if (!data) return null;
+
   try {
-    const bytes = CryptoJS.AES.decrypt(data, USERS_SECRET);
+    const bytes = CryptoJS.AES.decrypt(data, STORAGE_SECRET);
     const decrypted = bytes.toString(CryptoJS.enc.Utf8);
-    return decrypted ? JSON.parse(decrypted) : null;
+    if (!decrypted) return null;
+
+    return JSON.parse(decrypted);
   } catch {
     return null;
   }
 }
 
-export function saveUsers(users) {
+export function setStorageItem(key, value) {
   if (typeof window === "undefined") return;
-  localStorage.setItem(USERS_KEY, encryptUsers(users));
+
+  localStorage.setItem(key, encryptStorageValue(value));
+}
+
+export function getStorageItem(key, fallback = null) {
+  if (typeof window === "undefined") return fallback;
+
+  const rawValue = localStorage.getItem(key);
+  if (rawValue === null) return fallback;
+
+  const decryptedValue = decryptStorageValue(rawValue);
+  if (decryptedValue !== null) return decryptedValue;
+
+  try {
+    return JSON.parse(rawValue);
+  } catch {
+    return rawValue;
+  }
+}
+
+export function removeStorageItem(key) {
+  if (typeof window === "undefined") return;
+  localStorage.removeItem(key);
+}
+
+export function saveUsers(users) {
+  setStorageItem(USERS_KEY, users);
 }
 
 function migrateLegacyUser() {
@@ -30,7 +60,9 @@ function migrateLegacyUser() {
 
   try {
     const oldUser = JSON.parse(legacy);
-    const users = getUsers();
+    const users = Array.isArray(getStorageItem(USERS_KEY, []))
+      ? getStorageItem(USERS_KEY, [])
+      : [];
     const exists = users.some(
       (u) => u.username === oldUser.username || u.email === oldUser.email
     );
@@ -45,7 +77,9 @@ function migrateLegacyUser() {
       });
       saveUsers(users);
     }
-  } catch {}
+  } catch {
+    // Ignore invalid legacy data.
+  }
 
   localStorage.removeItem("user");
 }
@@ -54,17 +88,10 @@ export function getUsers() {
   if (typeof window === "undefined") return [];
   migrateLegacyUser();
 
-  const data = localStorage.getItem(USERS_KEY);
-  if (!data) return [];
+  const data = getStorageItem(USERS_KEY, []);
+  if (Array.isArray(data)) return data;
 
-  const decrypted = decryptUsers(data);
-  if (decrypted) return decrypted;
-
-  try {
-    return JSON.parse(data);
-  } catch {
-    return [];
-  }
+  return [];
 }
 
 export function registerUser({ username, email, password, avatar }) {
@@ -109,17 +136,17 @@ export function loginUser({ username, email, password }) {
 
 export function setSession(user) {
   const plan = user?.plan || "free";
-  localStorage.setItem("isAuth", "true");
-  localStorage.setItem("currentUser", user?.username || "");
-  localStorage.setItem("currentAvatar", user?.avatar || DEFAULT_AVATAR);
-  localStorage.setItem("plan", plan);
+  setStorageItem("isAuth", "true");
+  setStorageItem("currentUser", user?.username || "");
+  setStorageItem("currentAvatar", user?.avatar || DEFAULT_AVATAR);
+  setStorageItem("plan", plan);
 }
 
 export function logout() {
-  localStorage.removeItem("isAuth");
-  localStorage.removeItem("currentUser");
-  localStorage.removeItem("currentAvatar");
-  localStorage.removeItem("plan");
+  removeStorageItem("isAuth");
+  removeStorageItem("currentUser");
+  removeStorageItem("currentAvatar");
+  removeStorageItem("plan");
 }
 
 export function getSession() {
@@ -128,9 +155,9 @@ export function getSession() {
   }
 
   return {
-    isAuth: localStorage.getItem("isAuth") === "true",
-    username: localStorage.getItem("currentUser") || "",
-    avatar: localStorage.getItem("currentAvatar") || DEFAULT_AVATAR,
-    plan: localStorage.getItem("plan") || "",
+    isAuth: getStorageItem("isAuth", false) === "true",
+    username: getStorageItem("currentUser", "") || "",
+    avatar: getStorageItem("currentAvatar", DEFAULT_AVATAR) || DEFAULT_AVATAR,
+    plan: getStorageItem("plan", "") || "",
   };
 }
