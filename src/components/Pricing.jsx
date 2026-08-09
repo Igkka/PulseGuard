@@ -38,39 +38,68 @@ export default function PricingPage() {
         setCurrentPlan(sessionData.plan || "free");
     }, []);
 
-    const choosePlan = (plantype) => {
-        if (!session.isAuth) {
-            alert("Please log in first!");
-            return;
-        }
+const choosePlan = async (plantype) => {
+    if (!session.isAuth) {
+        alert("Please log in first!");
+        return;
+    }
 
-        const users = getUsers();
-        const user = users.find((u) => u.username === session.username);
-        const storedPlan = session.plan || "free";
+    const users = await getUsers();
 
-        if (!user) {
-            alert("Please log in first!");
-            return;
-        }
+    const user = users.find(
+        (u) => u.username === session.username
+    );
 
-        if (storedPlan === "pro" && plantype === "free") {
-            alert("You cannot switch from the Pro plan to the Free plan.");
-            return;
-        }
+    if (!user) {
+        alert("Please log in first!");
+        return;
+    }
 
-        if (plantype === storedPlan) {
-            alert("You already have this plan.");
-            return;
-        }
+    const storedPlan = user.plan || "free";
 
-        user.plan = plantype;
-        saveUsers(users);
-        setStorageItem("plan", plantype);
-        setCurrentPlan(plantype);
+    if (
+        storedPlan === "pro" &&
+        plantype === "free"
+    ) {
+        alert(
+            "You cannot switch from the Pro plan to the Free plan."
+        );
+        return;
+    }
 
-        alert(`You selected the ${plantype} plan!`);
-        window.location.href = "/";
-    };
+    if (plantype === storedPlan) {
+        alert("You already have this plan.");
+        return;
+    }
+
+    user.plan = plantype;
+
+    // Меняем баланс только при переходе Free → Pro
+    if (
+        storedPlan === "free" &&
+        plantype === "pro"
+    ) {
+        localStorage.setItem(
+            "balance",
+            "100"
+        );
+    }
+
+    await saveUsers(users);
+
+    localStorage.setItem(
+        "plan",
+        plantype
+    );
+
+    setCurrentPlan(plantype);
+
+    alert(
+        `You selected the ${plantype} plan!`
+    );
+
+    window.location.href = "/";
+};
 
     return (
         <section

@@ -2,56 +2,26 @@ import CryptoJS from "crypto-js";
 
 export const DEFAULT_AVATAR = "/users/user24px.svg";
 
-const USERS_KEY = process.env.KEY;
-const STORAGE_SECRET = process.env.STORAGE_Password;
+const USERS_KEY = "users";
+const USERS_SECRET = "CybersecurityAppUserSecret2026";
 
-function encryptStorageValue(value) {
-  return CryptoJS.AES.encrypt(JSON.stringify(value), STORAGE_SECRET).toString();
+function encryptUsers(users) {
+  return CryptoJS.AES.encrypt(JSON.stringify(users), USERS_SECRET).toString();
 }
 
-function decryptStorageValue(data) {
-  if (!data) return null;
-
+function decryptUsers(data) {
   try {
-    const bytes = CryptoJS.AES.decrypt(data, STORAGE_SECRET);
+    const bytes = CryptoJS.AES.decrypt(data, USERS_SECRET);
     const decrypted = bytes.toString(CryptoJS.enc.Utf8);
-    if (!decrypted) return null;
-
-    return JSON.parse(decrypted);
+    return decrypted ? JSON.parse(decrypted) : null;
   } catch {
     return null;
   }
 }
 
-export function setStorageItem(key, value) {
-  if (typeof window === "undefined") return;
-
-  localStorage.setItem(key, encryptStorageValue(value));
-}
-
-export function getStorageItem(key, fallback = null) {
-  if (typeof window === "undefined") return fallback;
-
-  const rawValue = localStorage.getItem(key);
-  if (rawValue === null) return fallback;
-
-  const decryptedValue = decryptStorageValue(rawValue);
-  if (decryptedValue !== null) return decryptedValue;
-
-  try {
-    return JSON.parse(rawValue);
-  } catch {
-    return rawValue;
-  }
-}
-
-export function removeStorageItem(key) {
-  if (typeof window === "undefined") return;
-  localStorage.removeItem(key);
-}
-
 export function saveUsers(users) {
-  setStorageItem(USERS_KEY, users);
+  if (typeof window === "undefined") return;
+  localStorage.setItem(USERS_KEY, encryptUsers(users));
 }
 
 function migrateLegacyUser() {
@@ -60,9 +30,7 @@ function migrateLegacyUser() {
 
   try {
     const oldUser = JSON.parse(legacy);
-    const users = Array.isArray(getStorageItem(USERS_KEY, []))
-      ? getStorageItem(USERS_KEY, [])
-      : [];
+    const users = getUsers();
     const exists = users.some(
       (u) => u.username === oldUser.username || u.email === oldUser.email
     );
@@ -77,9 +45,7 @@ function migrateLegacyUser() {
       });
       saveUsers(users);
     }
-  } catch {
-    // Ignore invalid legacy data.
-  }
+  } catch {}
 
   localStorage.removeItem("user");
 }
@@ -88,10 +54,17 @@ export function getUsers() {
   if (typeof window === "undefined") return [];
   migrateLegacyUser();
 
-  const data = getStorageItem(USERS_KEY, []);
-  if (Array.isArray(data)) return data;
+  const data = localStorage.getItem(USERS_KEY);
+  if (!data) return [];
 
-  return [];
+  const decrypted = decryptUsers(data);
+  if (decrypted) return decrypted;
+
+  try {
+    return JSON.parse(data);
+  } catch {
+    return [];
+  }
 }
 
 export function registerUser({ username, email, password, avatar }) {
@@ -134,19 +107,53 @@ export function loginUser({ username, email, password }) {
   return { success: true, user };
 }
 
+export function setStorageItem(key, value) {
+    if (typeof window === "undefined") return;
+
+    localStorage.setItem(
+        key,
+        JSON.stringify(value)
+    );
+}
+
+export function getStorageItem(key, fallback = null) {
+    if (typeof window === "undefined") {
+        return fallback;
+    }
+
+    const value =
+        localStorage.getItem(key);
+
+    if (value === null) {
+        return fallback;
+    }
+
+    try {
+        return JSON.parse(value);
+    } catch {
+        return value;
+    }
+}
+
+export function removeStorageItem(key) {
+    if (typeof window === "undefined") return;
+
+    localStorage.removeItem(key);
+}
+
 export function setSession(user) {
   const plan = user?.plan || "free";
-  setStorageItem("isAuth", "true");
-  setStorageItem("currentUser", user?.username || "");
-  setStorageItem("currentAvatar", user?.avatar || DEFAULT_AVATAR);
-  setStorageItem("plan", plan);
+  localStorage.setItem("isAuth", "true");
+  localStorage.setItem("currentUser", user?.username || "");
+  localStorage.setItem("currentAvatar", user?.avatar || DEFAULT_AVATAR);
+  localStorage.setItem("plan", plan);
 }
 
 export function logout() {
-  removeStorageItem("isAuth");
-  removeStorageItem("currentUser");
-  removeStorageItem("currentAvatar");
-  removeStorageItem("plan");
+  localStorage.removeItem("isAuth");
+  localStorage.removeItem("currentUser");
+  localStorage.removeItem("currentAvatar");
+  localStorage.removeItem("plan");
 }
 
 export function getSession() {
@@ -155,9 +162,9 @@ export function getSession() {
   }
 
   return {
-    isAuth: getStorageItem("isAuth", false) === "true",
-    username: getStorageItem("currentUser", "") || "",
-    avatar: getStorageItem("currentAvatar", DEFAULT_AVATAR) || DEFAULT_AVATAR,
-    plan: getStorageItem("plan", "") || "",
+    isAuth: localStorage.getItem("isAuth") === "true",
+    username: localStorage.getItem("currentUser") || "",
+    avatar: localStorage.getItem("currentAvatar") || DEFAULT_AVATAR,
+    plan: localStorage.getItem("plan") || "",
   };
 }

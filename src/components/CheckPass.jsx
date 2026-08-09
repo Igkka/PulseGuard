@@ -35,15 +35,15 @@ export default function CheckPass(){
         if (passLength > 8) countCheck++;
 
         if (countCheck === 5) {
-            setCheckResult("A strong password");
+            setCheckResult("🟢 A strong password");
         } else if (countCheck === 4) {
-            setCheckResult("A good password");
+            setCheckResult("🟡 A good password");
         } else if (countCheck === 3) {
-            setCheckResult("Not a very good password.");
+            setCheckResult("🟠 Not a very good password.");
         } else if (countCheck === 2) {
-            setCheckResult("Bad password");
+            setCheckResult("🔴 Bad password");
         } else {
-            setCheckResult("A very bad password");
+            setCheckResult("⚫ A very bad password");
         }
     }
 

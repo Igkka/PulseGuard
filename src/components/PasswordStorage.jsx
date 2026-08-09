@@ -4,27 +4,82 @@ import "@/components/style/PasswordStorage.css"
 import { useState } from "react"
 import { useEffect } from "react"
 import { spendCoin } from "./SpendCoins"
-import { getStorageItem, setStorageItem } from "@/lib/auth"
 
-export default function PassStorage(){
+async function savePasswords(passwords) {
+    const response = await fetch("/api/passwords", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            passwords,
+        }),
+    });
 
-    const [passwords,setPasswords] = useState([])
-    const [dataStorage,setDataStorage] = useState({
-        id:"",
-        title:"",
-        password:"",
-    })
+    const result = await response.json();
 
-    useEffect(() => {
-        const saved = getStorageItem("passwords", []);
+    if (!response.ok || !result.success) {
+        throw new Error(
+            result.error || "Failed to save passwords"
+        );
+    }
 
-        if (Array.isArray(saved)) {
-            setPasswords(saved);
+    localStorage.setItem(
+        "passwords",
+        result.data
+    );
+}
+
+    async function loadPasswords() {
+        const data = localStorage.getItem("passwords");
+
+        if (!data) {
+            return [];
         }
 
+        const response = await fetch("/api/passwords", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                data,
+            }),
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+            return [];
+        }
+
+        return Array.isArray(result.passwords)
+            ? result.passwords
+            : [];
+    }
+
+    export default function PassStorage (){
+
+        const [passwords,setPasswords] = useState([])
+        const [dataStorage,setDataStorage] = useState({
+            id:"",
+            title:"",
+            password:"",
+        })
+
+    useEffect(() => {
+        async function load() {
+            const saved = await loadPasswords();
+
+            if (Array.isArray(saved)) {
+                setPasswords(saved);
+            }
+        }
+
+        load();
     }, []);
 
-    const CreateStorage = (e) => {
+    const CreateStorage = async (e) => {
         e.preventDefault()
 
 
@@ -53,7 +108,7 @@ export default function PassStorage(){
     };
         
         const updatedPasswords = [...passwords, newStorage];
-        setStorageItem("passwords", updatedPasswords);
+        await savePasswords(updatedPasswords);
         setPasswords(updatedPasswords);
         window.location.href = "/pro"
 
@@ -68,17 +123,14 @@ export default function PassStorage(){
         })
     }
 
-    const handleDelete = (id) => {
+    const handleDelete = async (id) => {
+        const updatedPasswords = passwords.filter(
+            (item) => item.id !== id
+        );
 
-        const updatedPasswords = passwords.filter((item) => {
-            return item.id !== id
-        });
-
+        await savePasswords(updatedPasswords);
         setPasswords(updatedPasswords);
-        setStorageItem("passwords", updatedPasswords);
-
-    }
-
+    };
 
 
 
@@ -105,7 +157,7 @@ export default function PassStorage(){
 
                     <h3>{item.title}</h3>
                     <p>{item.password}</p>
-                    <button className="Delete" onClick={()=>handleDelete(item.id)}>Delete</button>
+                    <button type="button" className="Delete" onClick={()=>handleDelete(item.id)}>Delete</button>
                 </div>
             ))}
         </div>

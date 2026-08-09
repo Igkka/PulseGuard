@@ -1,40 +1,33 @@
 .docs{
     display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
+    align-items: center;
+    justify-content: space-around;
     gap: 25px;
-    overflow-x: auto;
-    padding: 20px 0;
+    opacity: 0;
     opacity: 0;
     transform: translateY(40px);
     animation: show .8s ease forwards;
-    scroll-snap-type: x mandatory;
+
 }
 
-.docs::-webkit-scrollbar{
-    height: 10px;
-}
-
-.docs::-webkit-scrollbar-track{
-    background: rgba(255,255,255,.05);
-}
-
-.docs::-webkit-scrollbar-thumb{
-    background: rgba(46,255,119,.45);
-    border-radius: 999px;
-}
 
 .documents{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-top: 450px;
+    
+  h2{
+    position: fixed;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
     margin-top: 120px;
 }
-
-.documents h2{
-    margin-bottom: 40px;
 }
+
+
 
 .doc{
     padding:35px;

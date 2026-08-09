@@ -3,24 +3,31 @@
 import "@/components/style/Registration.css";
 import { useRef, useState } from "react";
 import Link from "next/link";
+
 import {
     DEFAULT_AVATAR,
     registerUser,
-    setStorageItem,
 } from "@/lib/auth";
 
+
 export default function Registration() {
-    const fileInputRef = useRef(null);
 
-    const [blank, setBlank] = useState({
-        username: "",
-        email: "",
-        password: "",
-    });
+    const fileInputRef =
+        useRef(null);
 
-    const [avatar, setAvatar] = useState(DEFAULT_AVATAR);
+    const [blank, setBlank] =
+        useState({
+            username: "",
+            email: "",
+            password: "",
+        });
 
-    const handleSubmit = (e) => {
+    const [avatar, setAvatar] =
+        useState(DEFAULT_AVATAR);
+
+
+    const handleSubmit = async (e) => {
+
         e.preventDefault();
 
         if (
@@ -28,81 +35,149 @@ export default function Registration() {
             blank.email.trim() === "" ||
             blank.password.trim() === ""
         ) {
-            alert("Fill in all fields");
+            alert(
+                "Fill in all fields"
+            );
             return;
         }
 
-        const result = registerUser({
-            username: blank.username.trim(),
-            email: blank.email.trim(),
-            password: blank.password.trim(),
-            avatar,
-        });
 
-        if (!result.success) {
-            alert(result.error);
-            return;
+        try {
+
+            const result =
+                await registerUser({
+                    username:
+                        blank.username.trim(),
+
+                    email:
+                        blank.email.trim(),
+
+                    password:
+                        blank.password.trim(),
+
+                    avatar,
+                });
+
+
+            if (!result.success) {
+
+                alert(
+                    result.error
+                );
+
+                return;
+            }
+
+
+            alert(
+                "You are registered"
+            );
+
+            window.location.href =
+                "/";
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                error.message ||
+                "Registration failed"
+            );
         }
-
-        // Новый аккаунт получает Free-план
-        setStorageItem("plan", "free");
-
-        // Новый аккаунт получает 15 кредитов
-        setStorageItem("balance", "15");
-
-        alert("You are registered");
-
-        window.location.href = "/";
     };
+
 
     const handleChange = (e) => {
+
         setBlank({
             ...blank,
-            [e.target.name]: e.target.value,
+            [e.target.name]:
+                e.target.value,
         });
     };
 
-    const handleAvatarChange = (e) => {
-        const file = e.target.files?.[0];
 
-        if (!file) return;
+    const handleAvatarChange =
+        (e) => {
 
-        if (!file.type.startsWith("image/")) {
-            alert("Please select an image file");
-            return;
-        }
+            const file =
+                e.target.files?.[0];
 
-        const reader = new FileReader();
+            if (!file) return;
 
-        reader.onload = (event) => {
-            setAvatar(event.target.result);
+
+            if (
+                !file.type.startsWith(
+                    "image/"
+                )
+            ) {
+                alert(
+                    "Please select an image file"
+                );
+
+                return;
+            }
+
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                (event) => {
+
+                    setAvatar(
+                        event.target.result
+                    );
+                };
+
+
+            reader.readAsDataURL(
+                file
+            );
         };
 
-        reader.readAsDataURL(file);
-    };
 
-    const handleUseDefaultAvatar = () => {
-        setAvatar(DEFAULT_AVATAR);
+    const handleUseDefaultAvatar =
+        () => {
 
-        if (fileInputRef.current) {
-            fileInputRef.current.value = "";
-        }
-    };
+            setAvatar(
+                DEFAULT_AVATAR
+            );
+
+            if (
+                fileInputRef.current
+            ) {
+                fileInputRef.current.value =
+                    "";
+            }
+        };
+
 
     return (
         <section className="registration">
-            <form onSubmit={handleSubmit}>
 
-                <h2>Registration</h2>
+            <form
+                onSubmit={handleSubmit}
+            >
+
+                <h2>
+                    Registration
+                </h2>
+
 
                 <div className="avatar-section">
+
                     <img
                         src={avatar}
                         alt="Avatar"
                         className="avatar-preview"
                     />
 
+
                     <div className="avatar-actions">
+
                         <button
                             type="button"
                             className="avatar-picker-btn"
@@ -113,50 +188,81 @@ export default function Registration() {
                             Choose an avatar
                         </button>
 
+
                         <input
-                            ref={fileInputRef}
+                            ref={
+                                fileInputRef
+                            }
                             type="file"
                             accept="image/*"
                             hidden
-                            onChange={handleAvatarChange}
+                            onChange={
+                                handleAvatarChange
+                            }
                         />
 
-                        {avatar !== DEFAULT_AVATAR && (
+
+                        {avatar !==
+                            DEFAULT_AVATAR && (
+
                             <button
                                 type="button"
                                 className="avatar-default-btn"
-                                onClick={handleUseDefaultAvatar}
+                                onClick={
+                                    handleUseDefaultAvatar
+                                }
                             >
                                 Use default
                             </button>
+
                         )}
+
                     </div>
+
                 </div>
 
+
                 <div className="blanks">
+
                     <input
                         name="username"
-                        value={blank.username}
-                        onChange={handleChange}
+                        value={
+                            blank.username
+                        }
+                        onChange={
+                            handleChange
+                        }
                         placeholder="Your username"
                     />
+
 
                     <input
                         name="email"
                         type="email"
-                        value={blank.email}
-                        onChange={handleChange}
+                        value={
+                            blank.email
+                        }
+                        onChange={
+                            handleChange
+                        }
                         placeholder="Your email"
                     />
+
 
                     <input
                         name="password"
                         type="password"
-                        value={blank.password}
-                        onChange={handleChange}
+                        value={
+                            blank.password
+                        }
+                        onChange={
+                            handleChange
+                        }
                         placeholder="Your password"
                     />
+
                 </div>
+
 
                 <button
                     className="registerbnt"
@@ -165,12 +271,19 @@ export default function Registration() {
                     Register
                 </button>
 
+
                 <p>
+
                     Have account?
-                    <Link href="/login"> Sign In</Link>
+
+                    <Link href="/login">
+                        {" "}Sign In
+                    </Link>
+
                 </p>
 
             </form>
+
         </section>
     );
 }
