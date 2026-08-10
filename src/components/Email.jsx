@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { spendCoin } from "./SpendCoins";
 import "@/components/style/Email.css"
 
 export default function EmailValidator() {
@@ -25,7 +26,15 @@ export default function EmailValidator() {
         setStatus("checking");
         setMessage("");
         setBreaches([]);
+        
+        if (!spendCoin()) {
+            setStatus("error");
+            setMessage("You don't have enough coins!");
+            return;
+        }
 
+        setStatus("checking");
+        setMessage("");
         try {
             const response = await fetch("/api/validate-email", {
                 method: "POST",
