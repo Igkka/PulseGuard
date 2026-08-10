@@ -1,0 +1,19 @@
+{
+  "name": "PulseGuard",
+  "short_name": "PulseGuard",
+  "description": "Cybersecurity app for password management and URL security checks",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#07111f",
+  "theme_color": "#0f172a",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
