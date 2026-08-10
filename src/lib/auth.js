@@ -2,9 +2,6 @@ import CryptoJS from "crypto-js";
 
 export const DEFAULT_AVATAR = "/users/user24px.svg";
 
-const USERS_KEY = "users";
-const USERS_SECRET = "CybersecurityAppUserSecret2026";
-
 function encryptUsers(users) {
   return CryptoJS.AES.encrypt(JSON.stringify(users), USERS_SECRET).toString();
 }

@@ -1,68 +1,124 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import "@/lib/Email.js"
+"use client";
 
-const EmailValidator = () => {
-  const [email, setEmail] = useState('');
-  const [status, setStatus] = useState('idle'); // idle | checking | valid | invalid
-  const [message, setMessage] = useState('');
+import { useState } from "react";
+import "@/components/style/Email.css"
+
+export default function EmailValidator() {
+    const [email, setEmail] = useState("");
+    const [status, setStatus] = useState("idle");
+    const [message, setMessage] = useState("");
+    const [breaches, setBreaches] = useState([]);
   
-  // Функция для проверки формата email
-  const isValidFormat = (email) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
-  };
+    const isValidFormat = (value) => {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
+    };
 
-  // Обработка ввода email
-  const handleChange = (e) => {
-    setEmail(e.target.value);
-    setStatus('idle');
-    setMessage('');
-  };
+    const validateEmail = async () => {
+        const trimmedEmail = email.trim();
 
-  // Проверка через API
-  const validateEmail = async () => {
-    if (!isValidFormat(email)) {
-      setStatus('invalid');
-      setMessage('Некорректный формат email');
-      return;
-    }
+        if (!isValidFormat(trimmedEmail)) {
+            setStatus("invalid");
+            setMessage("Invalid email format");
+            return;
+        }
 
-    setStatus('checking');
-    setMessage('Проверяем...');
+        setStatus("checking");
+        setMessage("");
+        setBreaches([]);
 
-    try {
-      const response = await axios.post('/api/validate-email', { email });
-      
-      if (response.data.valid) {
-        setStatus('valid');
-        setMessage('');
-      } else {
-        setStatus('invalid');
-        setMessage(response.data.message || 'Email не прошел проверку');
-      }
-    } catch (error) {
-      setStatus('error');
-      setMessage('Ошибка при проверке email');
-    }
-  };
+        try {
+            const response = await fetch("/api/validate-email", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email: trimmedEmail }),
+            });
 
-  return (
-    <div>
-      <input 
-        type="email" 
-        value={email} 
-        onChange={handleChange} 
-        disabled={status === 'checking'}
-      />
-      <button onClick={validateEmail} disabled={!email || status === 'checking'}>
-        Проверить
-      </button>
-      
-      {status === 'valid' && <div className="success">Email валиден</div>}
-      {status === 'invalid' && <div className="error">{message}</div>}
-      {status === 'checking' && <div>Проверка...</div>}
-    </div>
-  );
-};
+            const data = await response.json();
 
-export default EmailValidator;
+            if (!response.ok || !data.success) {
+                setStatus("error");
+                setMessage(data.message || "Email verification failed");
+                return;
+            }
+
+            if (data.breached) {
+                setStatus("breached");
+                setMessage("This email was found in known data breaches.");
+                setBreaches(data.breaches || []);
+            } else {
+                setStatus("safe");
+                setMessage("This email was not found in known data breaches.");
+            }
+        } catch (error) {
+            console.error(error);
+            setStatus("error");
+            setMessage("An error occurred while checking the email.");
+        }
+    };
+
+    return (
+        <section className="emailvalidator">
+            <h2>Email Security Check</h2>
+
+          <div className="emailcontent">
+           
+            {status === "safe" && (
+                <div className="success">🟢 {message}</div>
+            )}
+
+            {status === "breached" && (
+                <div className="error">
+                    🔴 {message}
+
+                    {breaches.length > 0 && (
+                        <div>
+                            <h3>Found in:</h3>
+                            <ul>
+                                {breaches.map((breach) => (
+                                    <li key={breach.Name}>
+                                        {breach.Name}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                </div>
+            )}
+
+            {status === "invalid" && (
+                <div className="error">{message}</div>
+            )}
+
+            {status === "error" && (
+                <div className="error">{message}</div>
+            )}
+
+            <input
+              className="chekedemail"
+              type="email"
+              value={email}
+              onChange={(e) => {
+                  setEmail(e.target.value);
+                  setStatus("idle");
+                  setMessage("");
+                  setBreaches([]);
+              }}
+              placeholder="Enter your email"
+              disabled={status === "checking"}
+            />
+
+
+             <button
+                type="button"
+                className="emailbtn"
+                onClick={validateEmail}
+                disabled={!email.trim() || status === "checking"}
+            >
+                {status === "checking" ? "Checking..." : "Check Email"}
+            </button>
+            </div>
+        </section>
+    );
+}

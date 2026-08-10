@@ -4,16 +4,17 @@ import PassStorage from "@/components/PasswordStorage"
 import GeneratePass from "@/components/GeneratePass"
 import UserBalance from "@/components/Balance"
 import CheckPass from "@/components/CheckPass"
+import EmailValidator from "@/components/Email"
 
 export default function ProPage(){
  return(
     <>
-    <Navbar/>
+   <Navbar/>
    <UserBalance/>
-    <PassStorage/>
-    <GeneratePass/>
-    <CheckPass/>
-
+   <PassStorage/>
+   <GeneratePass/>
+   <CheckPass/>
+   <EmailValidator/>
     </>
  )
 }
