@@ -48,7 +48,7 @@ export default function CheckPass(){
     }
 
     return(
-        <section className="checkpass">
+        <section className="checkpass" id="checkpass">
             <h2>Checking Password</h2>
             <div className="checkpasscontent">
                 <p className="checkresult">{checkResult}</p>

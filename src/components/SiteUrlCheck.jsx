@@ -90,7 +90,7 @@ export default function SiteSecurityCheck() {
     };
 
     return (
-        <section className="siteurlcheck">
+        <section className="siteurlcheck" id="siteurlcheck">
 
             <h2>Site Security Check</h2>
             <div className="sitecontent">

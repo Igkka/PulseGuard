@@ -41,7 +41,7 @@ export default function GeneratePass(){
     }
 
     return(
-        <section className="genpass">
+        <section className="genpass" id="genpass">
             <h2>Generate Password</h2>
             <div className="genpasscontent">
                 <p className="newgenpass">{newPassword === "" ? "Your Password Here" : newPassword} <Copy className="copybtn" onClick={handleCopy}/></p>

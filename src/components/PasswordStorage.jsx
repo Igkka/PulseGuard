@@ -135,7 +135,7 @@ async function savePasswords(passwords) {
 
 
     return(
-    <section className="passStoragePage">
+    <section className="passStoragePage" id="passStoragePage">
         <form action="" onSubmit={CreateStorage}>
 
         <h2>Password Storage</h2>

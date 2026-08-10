@@ -68,7 +68,7 @@ export default function EmailValidator() {
     };
 
     return (
-        <section className="emailvalidator">
+        <section className="emailvalidator" id="emailvalidator">
             <h2>Email Security Check</h2>
 
           <div className="emailcontent">
