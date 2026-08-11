@@ -1,4 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -36,7 +37,10 @@ export default function RootLayout({ children }) {
         <link rel="apple-touch-icon" href="/icon.svg" />
         <script src="/register-sw.js" defer />
       </head>
-      <body>{children}</body>
+      <body>
+        <SmoothScroll />
+        {children}
+        </body>
     </html>
   );
 }

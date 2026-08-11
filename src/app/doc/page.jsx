@@ -1,10 +1,20 @@
 import "@/components/style/Documents.css";
 import Navbar from "@/components/NavbarLoader";
-import Sphere from "@/components/sphere";
+import Link from "next/link";
+
 const docs = [
-    "Privacy Policy",
-    "Terms of Service",
-    "Support"
+    {
+        title: "Privacy Policy",
+        href: "/doc/privacy"
+    },
+    {
+        title: "Terms of Service",
+        href: "/doc/terms"
+    },
+    {
+        title: "Support",
+        href: "/#contact"
+    }
 ];
 
 const DocumentsPage = () => {
@@ -20,13 +30,14 @@ const DocumentsPage = () => {
 
             <div className="docs">
 
-                {docs.map((doc) => (
-                    <div
+               {docs.map((doc) => (
+                    <Link
+                        href={doc.href}
                         className="doc"
-                        key={doc}
+                        key={doc.title}
                     >
-                        {doc}
-                    </div>
+                        {doc.title}
+                    </Link>
                 ))}
 
             </div>
