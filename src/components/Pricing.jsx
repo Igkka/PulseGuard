@@ -2,7 +2,7 @@
 
 import "./style/Pricing.css";
 import { useEffect, useState } from "react";
-import { getUsers, getSession, saveUsers, setStorageItem } from "@/lib/auth";
+import { getUsers, getSession, saveUsers } from "@/lib/auth";
 
 const plans = [
     {
@@ -30,9 +30,20 @@ const plans = [
     }
 ];
 
+const initialPaymentForm = {
+    cardholder: "",
+    cardNumber: "",
+    expiry: "",
+    cvv: ""
+};
+
 export default function PricingPage() {
     const [currentPlan, setCurrentPlan] = useState("free");
     const [session, setSession] = useState({ isAuth: false, username: "", plan: "free" });
+    const [showPaymentModal, setShowPaymentModal] = useState(false);
+    const [pendingPlan, setPendingPlan] = useState(null);
+    const [paymentForm, setPaymentForm] = useState(initialPaymentForm);
+    const [paymentMessage, setPaymentMessage] = useState("");
 
     useEffect(() => {
         const sessionData = getSession();
@@ -40,81 +51,136 @@ export default function PricingPage() {
         setCurrentPlan(sessionData.plan || "free");
     }, []);
 
-const choosePlan = async (plantype) => {
-    if (!session.isAuth) {
-        alert("Please log in first!");
-        return;
-    }
+    const savePaymentToStorage = (user, paymentData) => {
+        const savedPayments = JSON.parse(localStorage.getItem("payments") || "[]");
+        savedPayments.push(paymentData);
+        localStorage.setItem("payments", JSON.stringify(savedPayments));
+        localStorage.setItem(`payment:${user.username}`, JSON.stringify(paymentData));
+    };
 
-    const users = await getUsers();
+    const handlePaymentInput = (event) => {
+        const { name, value } = event.target;
+        let nextValue = value;
 
-    const user = users.find(
-        (u) => u.username === session.username
-    );
+        if (name === "cardNumber") {
+            nextValue = value.replace(/\D/g, "").slice(0, 16).replace(/(.{4})/g, "$1 ").trim();
+        }
 
-    if (!user) {
-        alert("Please log in first!");
-        return;
-    }
+        if (name === "expiry") {
+            nextValue = value.replace(/\D/g, "").slice(0, 4);
+            if (nextValue.length > 2) {
+                nextValue = `${nextValue.slice(0, 2)}/${nextValue.slice(2)}`;
+            }
+        }
 
-    const storedPlan = user.plan || "free";
+        if (name === "cvv") {
+            nextValue = value.replace(/\D/g, "").slice(0, 4);
+        }
 
-    if (
-        storedPlan === "pro" &&
-        plantype === "free"
-    ) {
-        alert(
-            "You cannot switch from the Pro plan to the Free plan."
-        );
-        return;
-    }
+        setPaymentForm((prev) => ({ ...prev, [name]: nextValue }));
+    };
 
-    if (plantype === storedPlan) {
-        alert("You already have this plan.");
-        return;
-    }
+    const choosePlan = async (plantype) => {
+        if (!session.isAuth) {
+            alert("Please log in first!");
+            return;
+        }
 
-    user.plan = plantype;
+        const users = await getUsers();
+        const user = users.find((u) => u.username === session.username);
 
-    if (
-        storedPlan === "free" &&
-        plantype === "pro"
-    ) {
-        localStorage.setItem(
-            "balance",
-            "100"
-        );
-    }
+        if (!user) {
+            alert("Please log in first!");
+            return;
+        }
 
-    await saveUsers(users);
+        const storedPlan = user.plan || "free";
 
-    localStorage.setItem(
-        "plan",
-        plantype
-    );
+        if (storedPlan === "pro" && plantype === "free") {
+            alert("You cannot switch from the Pro plan to the Free plan.");
+            return;
+        }
 
-    setCurrentPlan(plantype);
+        if (plantype === storedPlan) {
+            alert("You already have this plan.");
+            return;
+        }
 
-    alert(
-        `You selected the ${plantype} plan!`
-    );
+        if (plantype === "pro") {
+            setPendingPlan("pro");
+            setPaymentMessage("");
+            setShowPaymentModal(true);
+            return;
+        }
 
-    window.location.href = "/";
-};
+        user.plan = plantype;
+
+        if (storedPlan === "free" && plantype === "pro") {
+            localStorage.setItem("balance", "100");
+        }
+
+        await saveUsers(users);
+        localStorage.setItem("plan", plantype);
+
+        setCurrentPlan(plantype);
+        alert(`You selected the ${plantype} plan!`);
+        window.location.href = "/";
+    };
+
+    const handlePaymentSubmit = async (event) => {
+        event.preventDefault();
+
+        if (!session.isAuth || !pendingPlan) {
+            return;
+        }
+
+        const users = await getUsers();
+        const user = users.find((u) => u.username === session.username);
+
+        if (!user) {
+            return;
+        }
+
+        const paymentData = {
+            username: session.username,
+            plan: pendingPlan,
+            cardholder: paymentForm.cardholder.trim(),
+            cardNumber: paymentForm.cardNumber.replace(/\s+/g, ""),
+            expiry: paymentForm.expiry.trim(),
+            cvv: paymentForm.cvv.trim(),
+            createdAt: new Date().toISOString()
+        };
+
+        user.plan = pendingPlan;
+        user.payment = {
+            cardholder: paymentData.cardholder,
+            cardNumber: paymentData.cardNumber,
+            expiry: paymentData.expiry,
+            cvv: paymentData.cvv
+        };
+
+        savePaymentToStorage(user, paymentData);
+        await saveUsers(users);
+        localStorage.setItem("plan", pendingPlan);
+        localStorage.setItem("balance", "100");
+
+        setCurrentPlan(pendingPlan);
+        setPaymentForm(initialPaymentForm);
+        setShowPaymentModal(false);
+        setPendingPlan(null);
+        setPaymentMessage("Демо-оплата сохранена локально в браузере.");
+
+        alert(`You selected the ${pendingPlan} plan!`);
+        window.location.href = "/";
+    };
 
     return (
-        <section
-            id="rates"
-            className="rates"
-        >
+        <section id="rates" className="rates">
             <h2>Rates</h2>
 
             <div className="cards">
                 {plans.map((plan) => (
-                    <div
-                        className="card"
-                        key={plan.title}
-                    >
+                    <div className="card" key={plan.title}>
                         <h3>{plan.title}</h3>
                         <p>{plan.price}</p>
                         <ul>
@@ -128,6 +194,78 @@ const choosePlan = async (plantype) => {
                     </div>
                 ))}
             </div>
+
+            {showPaymentModal && (
+                <div className="payment-backdrop" onClick={() => setShowPaymentModal(false)}>
+                    <div className="payment-modal" onClick={(event) => event.stopPropagation()}>
+                        <button className="payment-close" type="button" onClick={() => setShowPaymentModal(false)}>
+                            ×
+                        </button>
+                        <h3>Оплата Pro</h3>
+                        <p className="payment-hint">
+                            Это простая демо-форма. Данные сохраняются локально в браузере.
+                        </p>
+
+                        <form onSubmit={handlePaymentSubmit} className="payment-form">
+                            <label>
+                                Имя на карте
+                                <input
+                                    type="text"
+                                    name="cardholder"
+                                    placeholder="Ivan Ivanov"
+                                    value={paymentForm.cardholder}
+                                    onChange={handlePaymentInput}
+                                    required
+                                />
+                            </label>
+
+                            <label>
+                                Номер карты
+                                <input
+                                    type="text"
+                                    name="cardNumber"
+                                    placeholder="1234 5678 9012 3456"
+                                    value={paymentForm.cardNumber}
+                                    onChange={handlePaymentInput}
+                                    required
+                                />
+                            </label>
+
+                            <div className="payment-row">
+                                <label>
+                                    Срок
+                                    <input
+                                        type="text"
+                                        name="expiry"
+                                        placeholder="MM/YY"
+                                        value={paymentForm.expiry}
+                                        onChange={handlePaymentInput}
+                                        required
+                                    />
+                                </label>
+
+                                <label>
+                                    CVV
+                                    <input
+                                        type="text"
+                                        name="cvv"
+                                        placeholder="123"
+                                        value={paymentForm.cvv}
+                                        onChange={handlePaymentInput}
+                                        required
+                                    />
+                                </label>
+                            </div>
+
+                            <button className="payment-submit" type="submit">
+                                Оплатить
+                            </button>
+                        </form>
+
+                        {paymentMessage && <p className="payment-success">{paymentMessage}</p>}
+                    </div>
+                </div>
+            )}
         </section>
     );
 }

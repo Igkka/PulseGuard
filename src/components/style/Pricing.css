@@ -1,7 +1,7 @@
 .cards{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-     gap:35px;
+    gap:35px;
 }
 
 .card{
@@ -25,12 +25,12 @@
     max-width: 1200px;
     margin: 120px auto;
     padding: 40px;
-    h2{
-           text-align: center;
-    margin-bottom: 60px; 
-    }
 }
 
+.rates h2 {
+    text-align: center;
+    margin-bottom: 60px;
+}
 
 .card:hover{
     transform:translateY(-10px);
@@ -55,7 +55,6 @@
 .card li{
     padding:12px 0;
     border-bottom:1px solid rgba(255,255,255,.05);
-    
 }
 
 .card button{
@@ -69,45 +68,123 @@
     color:white;
     transition:.3s;
     border:1px solid #00521d;
-    &:hover{
-        cursor: pointer;
-        background: #30ff79;
-        color:black;
-    } 
-
 }
 
 .card button:hover{
-    background:white;
+    cursor: pointer;
+    background: #30ff79;
+    color:black;
+}
+
+.payment-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 1000;
+}
+
+.payment-modal {
+    width: min(100%, 480px);
+    background: rgba(10, 16, 20, 0.97);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 24px;
+    padding: 24px;
+    position: relative;
+    box-shadow: 0 0 40px rgba(37,255,120,.2);
+}
+
+.payment-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    border: none;
+    background: transparent;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.payment-hint {
+    color: #8dd09f;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.payment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.payment-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 14px;
+    color: #f3f3f3;
+}
+
+.payment-form input {
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.16);
+    background: rgba(255,255,255,0.08);
+    color: white;
+}
+
+.payment-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.payment-submit {
+    margin-top: 8px;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    background: #30ff79;
+    color: #06160b;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.payment-success {
+    margin-top: 12px;
+    color: #8dffb0;
+    font-size: 14px;
 }
 
 @media (max-width: 768px){
-
     .card{
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 350px;
-    padding:40px;
-    border-radius:30px;
-    background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,255,255,.08);
-    backdrop-filter:blur(18px);
-    transition:.35s;
-    opacity: 0;
-    transform: translateY(40px);
-    animation: show .8s ease forwards;
-    scroll-snap-align: start;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 350px;
+        padding:40px;
+        border-radius:30px;
+        background:rgba(255,255,255,.05);
+        border:1px solid rgba(255,255,255,.08);
+        backdrop-filter:blur(18px);
+        transition:.35s;
+        opacity: 0;
+        transform: translateY(40px);
+        animation: show .8s ease forwards;
+        scroll-snap-align: start;
     }
 
     .cards{
-    display:flex;
-    flex-direction: column;
-align-items: center;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-     gap:35px;
-}
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        gap:35px;
+    }
 
-    
-
+    .payment-row {
+        grid-template-columns: 1fr;
+    }
 }
