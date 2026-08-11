@@ -21,7 +21,7 @@ form{
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    margin-top: 400px;
+    margin-top: 200px;
     gap: 25px;
         opacity: 0;
     transform: translateY(40px);

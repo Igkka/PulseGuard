@@ -21,3 +21,28 @@
         font-family:'Poppins',sans-serif;
     }
 }
+
+@media(max-width:768px){
+    .balancecontent{
+        width: 100px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        border-radius: 40px;
+        background: rgba(255, 255, 255, 0.116);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.12);
+        position: fixed;
+        top: 820px;
+        left: 5%;
+        z-index: 1000;
+        opacity: 0;
+        transform: translateY(40px);
+        animation: show .8s ease forwards;
+        p{
+            font-family:'Poppins',sans-serif;
+        }
+    }
+
+}

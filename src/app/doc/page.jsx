@@ -11,9 +11,7 @@ const DocumentsPage = () => {
     return (
         <>
         <Navbar />
-
-           
-        <Sphere/>
+        
         <section className="documents">
 
             <h2>

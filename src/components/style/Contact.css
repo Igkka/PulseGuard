@@ -52,3 +52,45 @@
 .contactimg{
     width: 50%; 
 }
+
+@media (max-width: 768px){
+    .contactimg{
+        display: none;
+    }
+
+    .contact a{
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 150px;
+        height: 80px;
+        margin: 15px;
+        border-radius: 15px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 18px;
+        font-weight: 500;
+        color: white;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.12);
+        transition: .25s ease-in-out;
+        cursor: pointer;
+    }
+
+    .contact{
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        text-align: center;
+        h2{
+            font-size: 30px;
+            margin-top: 25px;
+        }
+        p{
+            color: rgb(218, 217, 217);
+            font-size: 16px;
+            margin-top: 25px;
+        }
+}
+
+}

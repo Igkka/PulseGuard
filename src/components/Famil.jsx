@@ -7,7 +7,7 @@ export default function FamilPage() {
       <div className="familcontent">
         <h2>Take control of your digital security</h2>
         <p>Join the ranks of users who trust PulseGuard to protect their data.</p>
-        <span>
+        <span className="contentfamil">
           <Link href="/registration" className="startreg">
             Get Started
           </Link>

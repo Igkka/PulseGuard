@@ -124,3 +124,187 @@ header {
     background: rgba(255, 255, 255, 0.2);
 }
 
+.mobile-menu-btn {
+    display: none;
+}
+
+.mobile-menu {
+    display: none;
+}
+
+@media (max-width: 768px) {
+
+    header {
+        top: 0;
+        left: 0;
+        width: 100%;
+        transform: none;
+    }
+
+    .navbar {
+        width: 100%;
+        height: 65px;
+        padding: 0 20px;
+        box-sizing: border-box;
+        border-radius: 0;
+        justify-content: space-between;
+        background: rgba(255, 255, 255, 0.116);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .user-profile {
+        display: none;
+    }
+
+    .auth-buttons {
+        display: none;
+    }
+
+    .mobile-menu-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        margin-left: auto;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.08);
+        color: white;
+        font-size: 22px;
+        cursor: pointer;
+        transition: 0.25s;
+    }
+
+    .mobile-menu-btn:hover {
+        background: rgba(56, 255, 128, 0.15);
+        color: #38ff80;
+    }
+
+    .mobile-menu {
+        display: block;
+        position: absolute;
+        top: 65px;
+        left: 0;
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        background: rgba(255, 255, 255, 0.116);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        animation: mobileMenuShow 0.25s ease;
+    }
+
+    .mobile-nav-links {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .mobile-nav-links a {
+        display: block;
+        padding: 13px 15px;
+        border-radius: 12px;
+        color: white;
+        text-decoration: none;
+        font-family: "Poppins", sans-serif;
+        transition: 0.25s;
+    }
+
+    .mobile-nav-links a:hover {
+        background: rgba(56, 255, 128, 0.1);
+        color: #38ff80;
+    }
+
+    .mobile-user {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .mobile-user > div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: white;
+    }
+
+    .mobile-user-avatar {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .mobile-logout {
+        padding: 8px 12px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.08);
+        color: white;
+        cursor: pointer;
+        transition: 0.25s;
+    }
+
+    .mobile-logout:hover {
+        background: rgba(255, 80, 80, 0.15);
+    }
+
+    .mobile-auth {
+        display: flex;
+
+        gap: 10px;
+
+        margin-top: 15px;
+        padding-top: 15px;
+
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .mobile-auth a {
+        flex: 1;
+        padding: 11px;
+        border-radius: 12px;
+        text-align: center;
+        color: white;
+        text-decoration: none;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        transition: 0.25s;
+    }
+
+    .mobile-auth a:last-child {
+        background: #38ff80;
+        color: black;
+        border-color: #38ff80;
+    }
+
+    .mobile-auth a:hover {
+        opacity: 0.8;
+    }
+}
+
+@keyframes mobileMenuShow {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -80,3 +80,34 @@
 .card button:hover{
     background:white;
 }
+
+@media (max-width: 768px){
+
+    .card{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 350px;
+    padding:40px;
+    border-radius:30px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
+    backdrop-filter:blur(18px);
+    transition:.35s;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: show .8s ease forwards;
+    scroll-snap-align: start;
+    }
+
+    .cards{
+    display:flex;
+    flex-direction: column;
+align-items: center;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+     gap:35px;
+}
+
+    
+
+}
