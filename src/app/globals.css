@@ -16,16 +16,22 @@ html {
   
 }
 
-html,body {
-  display: flex;
-  flex-direction: column;
+html,
+body {
   max-width: 100vw;
-  min-height: 100vh; /* Изменено % на vh для корректной работы на всю высоту экрана */
+  min-height: 100%;
+  font-family:'Poppins',sans-serif;
   scroll-behavior: smooth;
-  font-family: 'Poppins', Arial, Helvetica, sans-serif; /* Poppins в приоритете, остальные — запасные */
-  color: #fff; /* Или используйте var(--foreground), если переменная объявлена */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background:
+      radial-gradient(
+      circle at 10% 60%,
+      #30ad30b4,
+      transparent 20%
+    ),
+
+    #233F2D;
+  color:#fff;
+  
 }
 
 body{

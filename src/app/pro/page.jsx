@@ -6,11 +6,13 @@ import UserBalance from "@/components/Balance"
 import CheckPass from "@/components/CheckPass"
 import EmailValidator from "@/components/Email"
 import SiteSecurityCheck from "@/components/SiteUrlCheck"
+import CheckingFile from "@/components/CheckingFile"
 import { Database } from 'lucide-react';
 import { RotateCcwKey } from 'lucide-react';
 import { NotebookPen } from 'lucide-react';
 import { MailSearch } from 'lucide-react';
 import { Globe } from 'lucide-react';
+import { File } from "lucide-react"
 
 export default function ProPage(){
  return(
@@ -23,6 +25,7 @@ export default function ProPage(){
          <a href="#checkpass"><NotebookPen/></a>
          <a href="#emailvalidator"><MailSearch/></a>
          <a href="#siteurlcheck"><Globe/></a>
+         <a href="#filecheck"><File/></a>
       </div>
    </aside>
    
@@ -35,6 +38,7 @@ export default function ProPage(){
    <CheckPass/>
    <EmailValidator/>
    <SiteSecurityCheck/>
+   <CheckingFile/>
    
    </div>
 </>

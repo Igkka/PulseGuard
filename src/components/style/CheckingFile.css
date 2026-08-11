@@ -1,0 +1,96 @@
+.filecheck{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 60px;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    h2{
+    text-align: center;
+    font-size: 42px;
+    margin-bottom: 50px;
+    }
+}
+
+.checkedfile{
+    width: 25%;
+    padding: 16px 20px;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 16px;
+    background: rgba(255,255,255,.05);
+    backdrop-filter: blur(15px);
+    color: white;
+    outline: none;
+    font-size: 16px;
+    transition: .3s;
+}
+
+.checkedfile::file-selector-button:hover {
+    background: #38ff80;
+    color: black;
+}
+
+.checkedfile::file-selector-button {
+    padding: 10px 16px;
+    margin-right: 12px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(56, 255, 128, 0.15);
+    color: #38ff80;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.checkfilebtn{
+    padding:16px 28px;
+    border:none;
+    border-radius:16px;
+    background:#38ff80;
+    color:black;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.fileresults h3{
+    margin: 0 0 20px;
+    text-align: center;
+    font-size: 22px;
+}
+
+
+.fileresults p{
+    margin: 10px 0;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.filecheck .success{
+    color: #38ff80;
+}
+
+
+.filecheck .danger{
+    color: #ff5555;
+}
+
+
+.filecheck .suspicious{
+    color: #ffb84d;
+}
+
+
+.filecheck .error{
+    color: #ff5555;
+}
+
+
+.filecheck .checking{
+    color: #38ff80;
+}

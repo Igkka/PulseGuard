@@ -11,6 +11,7 @@ const plans = [
         features: [
             "Basic Password Storage",
             "Password Strength Check",
+            "Password Generator",
             "Basic Support"
         ]
     },
@@ -23,6 +24,7 @@ const plans = [
             "Strong Password Generator",
             "Checking For Mail Security",
             "Site Security Check",
+            "File Security Check",
             "Strong Support"
         ]
     }
@@ -74,7 +76,6 @@ const choosePlan = async (plantype) => {
 
     user.plan = plantype;
 
-    // Меняем баланс только при переходе Free → Pro
     if (
         storedPlan === "free" &&
         plantype === "pro"

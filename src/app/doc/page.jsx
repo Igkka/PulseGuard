@@ -4,8 +4,6 @@ import Sphere from "@/components/sphere";
 const docs = [
     "Privacy Policy",
     "Terms of Service",
-    "User Guide",
-    "FAQ",
     "Support"
 ];
 
