@@ -34,7 +34,7 @@ export default function Login() {
   };
 
   return (
-    <form onSubmit={signIn}>
+    <form onSubmit={signIn} className="loginpage">
       <div className="blanks">
         <input
           name="username"

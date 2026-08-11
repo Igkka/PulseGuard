@@ -201,14 +201,11 @@ export default function PricingPage() {
                         <button className="payment-close" type="button" onClick={() => setShowPaymentModal(false)}>
                             ×
                         </button>
-                        <h3>Оплата Pro</h3>
-                        <p className="payment-hint">
-                            Это простая демо-форма. Данные сохраняются локально в браузере.
-                        </p>
+                        <h3>Payment Pro</h3>
 
                         <form onSubmit={handlePaymentSubmit} className="payment-form">
                             <label>
-                                Имя на карте
+                                Card Name
                                 <input
                                     type="text"
                                     name="cardholder"
@@ -220,7 +217,7 @@ export default function PricingPage() {
                             </label>
 
                             <label>
-                                Номер карты
+                                Card Number 
                                 <input
                                     type="text"
                                     name="cardNumber"
@@ -233,7 +230,7 @@ export default function PricingPage() {
 
                             <div className="payment-row">
                                 <label>
-                                    Срок
+                                    Expiry
                                     <input
                                         type="text"
                                         name="expiry"
@@ -258,7 +255,7 @@ export default function PricingPage() {
                             </div>
 
                             <button className="payment-submit" type="submit">
-                                Оплатить
+                                Pay
                             </button>
                         </form>
 

@@ -12,7 +12,6 @@ export default function FreePage(){
  return(
    <>
    <aside className="navfunc">
-      <h2>Functions</h2>
       <div className="navfunclinks">
          <a href="#passStoragePage"><Database/></a>
          <a href="#genpass"><RotateCcwKey/></a>

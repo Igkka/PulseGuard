@@ -16,18 +16,24 @@
     color: white;
 }
 
-form{
+.registration {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Poppins", sans-serif;
+}
+
+.registration form {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    margin-top: 200px;
     gap: 25px;
-        opacity: 0;
+    opacity: 0;
     transform: translateY(40px);
     animation: show .8s ease forwards;
 }
-
 .registerbnt{
     border: none;
     outline: none;

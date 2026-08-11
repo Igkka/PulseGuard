@@ -89,12 +89,13 @@
 
 .payment-modal {
     width: min(100%, 480px);
-    background: rgba(10, 16, 20, 0.97);
-    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 12px;
+    background: rgba(93, 88, 167, 0.116);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 24px;
     padding: 24px;
     position: relative;
-    box-shadow: 0 0 40px rgba(37,255,120,.2);
 }
 
 .payment-close {
