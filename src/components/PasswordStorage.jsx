@@ -112,7 +112,13 @@ async function savePasswords(passwords) {
         const updatedPasswords = [...passwords, newStorage];
         await savePasswords(updatedPasswords);
         setPasswords(updatedPasswords);
-        window.location.href = "/pro"
+        const plan = localStorage.getItem("plan");
+
+        if (plan === "pro") {
+            window.location.href = "/pro";
+        } else {
+            window.location.href = "/free";
+        }
 
         
     }
