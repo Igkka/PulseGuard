@@ -4,9 +4,12 @@ import "@/components/style/privacy.css"
 export default function PrivacyPolicy(){
 
     return(
+<>
+        <Navbar/>
+
         <section className="privacypolicy" >
 
-            <Navbar/>
+
 
         <h2>Privacy Policy</h2>
         <p>Last updated: August 2026</p>
@@ -46,5 +49,7 @@ export default function PrivacyPolicy(){
         </div>
 
         </section>  
+
+</>
     )
 }

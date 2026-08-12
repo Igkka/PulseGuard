@@ -4,6 +4,8 @@ import "@/components/style/PasswordStorage.css"
 import { useState } from "react"
 import { useEffect } from "react"
 import { spendCoin } from "./SpendCoins"
+import { Copy } from "lucide-react"
+import { Trash } from "lucide-react"
 
 async function savePasswords(passwords) {
     const response = await fetch("/api/passwords", {
@@ -132,6 +134,15 @@ async function savePasswords(passwords) {
         setPasswords(updatedPasswords);
     };
 
+    const handleCopy = async (password) => {
+        
+        try {
+            await navigator.clipboard.writeText(password);
+            alert("Password copied!");
+        } catch {
+            alert("Copy failed. Please copy manually.");
+        }
+    }
 
 
     return(
@@ -145,7 +156,7 @@ async function savePasswords(passwords) {
             <input name="title" type="text" placeholder="Site Name" value={dataStorage.title} onChange={handleChangeStorage}/>
             <input name="password" type="password" placeholder="Site Password" value={dataStorage.password} onChange={handleChangeStorage}/>
 
-            <button type="submit">
+            <button type="submit" className="createstoragebtn" >
                 Create New Storage
             </button>
 
@@ -157,7 +168,10 @@ async function savePasswords(passwords) {
 
                     <h3>{item.title}</h3>
                     <p>{item.password}</p>
-                    <button type="button" className="Delete" onClick={()=>handleDelete(item.id)}>Delete</button>
+                    <div className="storagebuttons">
+                    <button type="button" className="copypass" onClick={()=>handleCopy(item.password)}><Copy/></button>
+                    <button type="button" className="deletestorage" onClick={()=>handleDelete(item.id)}><Trash/></button>
+                    </div>
                 </div>
             ))}
         </div>

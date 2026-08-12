@@ -4,9 +4,10 @@ import Navbar from "@/components/navbar"
 export default function TermsOfService(){
     return(
 
-        <section className="termsofservice">
+        <>
+        <Navbar/>
 
-            <Navbar/>
+        <section className="termsofservice">
 
         <h2>Terms Of Service</h2>
         <p>Last updated: August 2026</p>
@@ -47,6 +48,7 @@ export default function TermsOfService(){
         </div>
 
         </section>
+        </>
 
     )
 }

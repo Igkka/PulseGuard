@@ -17,13 +17,11 @@
     align-items: center;
     justify-content: center;
     margin-top: 150px;
-    
-  h2{
-    position: fixed;
+      h2{
     top: 100px;
     left: 50%;
-    transform: translateX(-50%);
-    margin-top: 120px;
+    margin-bottom: 120px;
+
 }
 }
 
@@ -47,8 +45,6 @@
     transform:translateY(-8px);
     background:rgba(46,255,119,.12);
 }
-
-
 
 body {
   display: flex;
@@ -94,11 +90,10 @@ body {
     margin-top: 250px;
     
   h2{
-    position: fixed;
     top: 100px;
     left: 50%;
-    transform: translateX(-50%);
-    margin-top: 120px;
+    margin-bottom: 120px;
+
 }
 }
 

@@ -14,6 +14,10 @@ const docs = [
     {
         title: "Support",
         href: "/#contact"
+    },
+    {
+        title: "FAQ",
+        href: "/#faqpage"
     }
 ];
 
