@@ -27,7 +27,6 @@
 .startreg{
     width: 110px;
     height: 50px;
-    box-shadow: 0px 0px 6px rgba(0, 0, 139, 0.514);
     background: rgba(255, 255, 255, 0.322);
     border: 1px solid white;
     outline: none;
@@ -40,21 +39,19 @@
     align-items: center;
     justify-content: center;
     text-decoration: none;
-       &:hover{
-    cursor: pointer;
-    background: white;
-    color: black;
-    border: 1px solid darkblue;
-    transition:.5s ease-in-out all ;
+    &:hover{
+        cursor: pointer;
+        background: white;
+        color: black;
+        transition:.2s all ease ;
     }
     
 }
 .startdoc{
     width: 110px;
     height: 50px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 139, 0.514);
-    background: rgba(0, 0, 139, 0.514);
-    border: 1px solid white;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgb(0, 0, 0);
     outline: none;
     color: white;
     border-radius: 35px;
@@ -66,12 +63,12 @@
     align-items: center;
     justify-content: center;
     text-decoration: none;
-       &:hover{
-    cursor: pointer;
-    background: rgba(0, 0, 0, 0.623);
-    color: white;
-    border: 1px solid seagreen;
-        transition:.5s ease-in-out all ;
+    
+    &:hover{
+        cursor: pointer;
+        background: rgb(0, 0, 0);
+        color: white;
+        transition:.2s all ease ;
     }
 }
 
@@ -82,29 +79,27 @@
     }
     
     .famil{
-        min-height: 100vh;
+        height: 100vh;
         display: flex;
-        flex-direction: column;
         align-items: center;
-        justify-content: center;
-        padding: 200px;
+        justify-content: space-around;
+        text-align: center;
+        h2{
+            font-size: 30px;
+            margin-top: 25px;
+        }
+        p{
+            color: rgb(218, 217, 217);
+            font-size: 15px;
+            margin-top: 25px;
+        }
     }
 
-    .famil h2 {
-        font-size: 30px;
-        margin-top: 25px;
-    }
-
-    .famil p {
-        color: rgb(218, 217, 217);
-        font-size: 15px;
-        margin-top: 25px;
-    }
 
     .contentfamil{
         display: flex;
         align-items: center;
-        justify-content: space-around;
+        justify-content: center;
     }
 
 }
