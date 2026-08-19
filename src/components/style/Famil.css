@@ -5,7 +5,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 200px;   
-    
+    text-align: center;
 }
 
 .sphereimg{
@@ -22,6 +22,12 @@
     color: rgb(218, 217, 217);
     font-size: 20px;
     margin-top: 25px;
+}
+
+.contentfamil{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
 .startreg{
@@ -57,7 +63,6 @@
     border-radius: 35px;
     font-family:'Poppins',sans-serif;
     font-size: 14px;
-    margin-left: 25px;
     margin-top: 25px;
     display: inline-flex;
     align-items: center;

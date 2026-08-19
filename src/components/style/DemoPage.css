@@ -70,6 +70,7 @@
             color: rgb(218, 217, 217);
             font-size: 15px;
             margin-top: 25px;
+            max-width: 80%;
         }
     }
 

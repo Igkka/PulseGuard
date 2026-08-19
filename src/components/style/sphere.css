@@ -1,15 +1,11 @@
 
-
 .scene {
   position: absolute;
-
   width: 220px;
   height: 220px;
-
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-
   pointer-events: none;
   z-index: 1;
 }

@@ -25,6 +25,7 @@
     max-width: 1200px;
     margin: 120px auto;
     padding: 40px;
+    scroll-margin-top: 15vh;
 }
 
 .rates h2 {
