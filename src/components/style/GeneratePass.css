@@ -1,73 +1,197 @@
-.genpass{
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 60px;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    h2{
-    text-align: center;
-    font-size: 42px;
-    margin-bottom: 50px;
-    }
+.genpass {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin-bottom: 60px;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.genpasscontent{
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 60px;
-    flex-direction: column;
-    align-items: center;
+.genpass h2 {
+  margin-bottom: 50px;
+  text-align: center;
+  font-size: 42px;
 }
 
-.copybtn{
-cursor: pointer;
+.formgenerate {
+  width: min(100%, 560px);
+  padding: 70px 100px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
 }
 
-.newgenpass{
-    padding:30px;
-    border-radius:25px;
-    background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,255,255,.08);
-    backdrop-filter:blur(20px);
-    transition:.35s;
-    text-align: center;
-    max-height: 80px;
-    min-width: 280px;
-    text-align: center;
-    display:flex;
-    justify-content:space-around;
+.genpasscontent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
 }
 
-.formgenerate{
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 16px;
-    background: rgba(255,255,255,.05);
-    backdrop-filter: blur(15px);
-    padding: 70 100 70 100;
+.password-output {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
 }
 
-.createpassbtn{
-    padding:16px 28px;
-    border:none;
-    border-radius:16px;
-    background:#38ff80;
-    color:black;
-    font-size:16px;
-    font-weight:600;
-    cursor:pointer;
-    transition:.3s;
+.newgenpass {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 80px;
+  margin: 0;
+  padding: 20px 30px;
+  overflow-wrap: anywhere;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.05);
+  text-align: center;
+  transition: 0.35s;
+  backdrop-filter: blur(20px);
+}
+
+.copybtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.copybtn:hover {
+  border-color: #38ff80;
+  background: #38ff80;
+  color: black;
+  transform: translateY(-2px);
+}
+
+.copy-message {
+  width: 100%;
+  margin: -10px 0 0;
+  color: #38ff80;
+  text-align: center;
+  font-size: 14px;
+}
+
+.password-settings {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.password-settings > label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.password-settings strong {
+  color: #38ff80;
+}
+
+.password-settings input[type="range"] {
+  width: 100%;
+  height: 6px;
+  accent-color: #38ff80;
+  cursor: pointer;
+}
+
+.checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.checkboxes label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkboxes input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  accent-color: #38ff80;
+  cursor: pointer;
+}
+
+.createpassbtn {
+  width: 100%;
+  padding: 16px 28px;
+  border: none;
+  border-radius: 16px;
+  background: #38ff80;
+  color: black;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.createpassbtn:hover {
+  background: #7affab;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(56, 255, 128, 0.2);
+}
+
+.createpassbtn:active {
+  transform: translateY(0);
 }
 
 @media (max-width: 768px) {
+  .genpass {
+    min-height: auto;
+    padding: 70px 20px;
+  }
 
-.formgenerate{
-    border: 1px solid rgba(255, 255, 255, 0);
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0);
-    backdrop-filter: blur(15px);
+  .genpass h2 {
+    margin-bottom: 30px;
+    font-size: 32px;
+  }
+
+  .formgenerate {
+    width: 100%;
+    padding: 30px 20px;
+    border-color: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .newgenpass {
+    min-height: 70px;
+    padding: 15px;
+    font-size: 14px;
+  }
 }
 
+@media (max-width: 420px) {
+  .password-output {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .copybtn {
+    width: 100%;
+    height: 44px;
+  }
+
+  .newgenpass {
+    min-width: 0;
+  }
 }
