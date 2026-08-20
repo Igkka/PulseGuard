@@ -6,6 +6,7 @@ import { useEffect } from "react"
 import { spendCoin } from "./SpendCoins"
 import { Copy } from "lucide-react"
 import { Trash } from "lucide-react"
+import { Eye,EyeOff } from 'lucide-react';
 
 async function savePasswords(passwords) {
     const response = await fetch("/api/passwords", {
@@ -63,6 +64,7 @@ async function savePasswords(passwords) {
     export default function PassStorage (){
 
         const [passwords,setPasswords] = useState([])
+        const [visiblePasswords, setVisiblePasswords] = useState({});
         const [dataStorage,setDataStorage] = useState({
             id:"",
             title:"",
@@ -113,13 +115,7 @@ async function savePasswords(passwords) {
         await savePasswords(updatedPasswords);
         setPasswords(updatedPasswords);
         const plan = localStorage.getItem("plan");
-
-        if (plan === "pro") {
-            window.location.href = "/pro";
-        } else {
-            window.location.href = "/free";
-        }
-
+        window.location.reload()
         
     }
     
@@ -129,6 +125,13 @@ async function savePasswords(passwords) {
             [e.target.name]: e.target.value
             
         })
+    }
+
+    const togglePassword = (id) => {
+        setVisiblePasswords((prev) => ({
+            ...prev,
+            [id]: !prev[id],
+        }));
     }
 
     const handleDelete = async (id) => {
@@ -152,37 +155,51 @@ async function savePasswords(passwords) {
 
 
     return(
+    <>
+    <div className="sectionline"></div>
+    <h4>01</h4>
+    <div className="sectionline"></div>
+
     <section className="passStoragePage" id="passStoragePage">
         <form action="" onSubmit={CreateStorage}>
 
-        <h2>Password Storage</h2>
+        <div  className="formstorage">
+            <h2>Password Storage</h2>
 
-        <div className="passStorageContent">
+            <div className="passStorageContent">
 
-            <input name="title" type="text" placeholder="Site Name" value={dataStorage.title} onChange={handleChangeStorage}/>
-            <input name="password" type="password" placeholder="Site Password" value={dataStorage.password} onChange={handleChangeStorage}/>
+                <input name="title" type="text" placeholder="Site Name" value={dataStorage.title} onChange={handleChangeStorage}/>
+                <input name="password" type="password" placeholder="Site Password" value={dataStorage.password} onChange={handleChangeStorage}/>
 
-            <button type="submit" className="createstoragebtn" >
-                Create New Storage
-            </button>
+                <button type="submit" className="createstoragebtn" >
+                    Create New Storage
+                </button>
 
+            </div>
         </div>
+
 
         <div className="storages">
             {passwords.map((item) => (
                 <div className="passItem" key={item.id}>
 
                     <h3>{item.title}</h3>
-                    <p>{item.password}</p>
+                    <p>
+                        {visiblePasswords[item.id]
+                            ? item.password
+                            : "••••••••••••"}
+                    </p>
                     <div className="storagebuttons">
                     <button type="button" className="copypass" onClick={()=>handleCopy(item.password)}><Copy/></button>
                     <button type="button" className="deletestorage" onClick={()=>handleDelete(item.id)}><Trash/></button>
+                    <button type="button" className="showpassword" onClick={() => togglePassword(item.id)}>{visiblePasswords[item.id] ? <EyeOff/> : <Eye/>}</button>
                     </div>
                 </div>
             ))}
         </div>
     </form>
     </section>
+    </>
     )
 
 }

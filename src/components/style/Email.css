@@ -3,7 +3,6 @@
     justify-content: center;
     gap: 20px;
     margin-bottom: 60px;
-    flex-wrap: wrap;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
@@ -22,6 +21,14 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+}
+
+.formemail{
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 16px;
+    background: rgba(255,255,255,.05);
+    backdrop-filter: blur(15px);
+    padding: 70 100 70 100;
 }
 
 .chekedemail{
@@ -53,4 +60,15 @@
 }
 .success{
         font-family:'Poppins',sans-serif;
+}
+
+@media (max-width: 768px) {
+
+.formemail{
+    border: 1px solid rgba(255, 255, 255, 0);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0);
+    backdrop-filter: blur(15px);
+}
+
 }

@@ -48,13 +48,25 @@ export default function CheckPass(){
     }
 
     return(
+        <>
+        <div className="sectionline"></div>
+        <h4>03</h4>
+        <div className="sectionline"></div>
         <section className="checkpass" id="checkpass">
+
+            <div className="formcheck">
+
             <h2>Checking Password</h2>
             <div className="checkpasscontent">
                 <p className="checkresult">{checkResult}</p>
                 <input type="password" name="password" className="checkedpass" onChange={(e)=>setCheckPassword(e.target.value)} />
                 <button className="checkpassbtn" onClick={handleCheck}>Check Password</button>
             </div>
+
+            </div>
+
+           
         </section>
+        </>
     )
 }

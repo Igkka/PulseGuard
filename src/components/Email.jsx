@@ -68,66 +68,77 @@ export default function EmailValidator() {
     };
 
     return (
+        <>
+        <div className="sectionline"></div>
+        <h4>04</h4>
+        <div className="sectionline"></div>
         <section className="emailvalidator" id="emailvalidator">
-            <h2>Email Security Check</h2>
 
-          <div className="emailcontent">
-           
-            {status === "safe" && (
-                <div className="success">🟢 {message}</div>
-            )}
+            <div className="formemail">
 
-            {status === "breached" && (
-                <div className="error">
-                    🔴 {message}
+                <h2>Email Security Check</h2>
 
-                    {breaches.length > 0 && (
-                        <div>
-                            <h3>Found in:</h3>
-                            <ul>
-                                {breaches.map((breach) => (
-                                    <li key={breach.Name}>
-                                        {breach.Name}
-                                    </li>
-                                ))}
-                            </ul>
+                <div className="emailcontent">
+                
+                    {status === "safe" && (
+                        <div className="success">🟢 {message}</div>
+                    )}
+
+                    {status === "breached" && (
+                        <div className="error">
+                            🔴 {message}
+
+                            {breaches.length > 0 && (
+                                <div>
+                                    <h3>Found in:</h3>
+                                    <ul>
+                                        {breaches.map((breach) => (
+                                            <li key={breach.Name}>
+                                                {breach.Name}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
                         </div>
                     )}
+
+                    {status === "invalid" && (
+                        <div className="error">{message}</div>
+                    )}
+
+                    {status === "error" && (
+                        <div className="error">{message}</div>
+                    )}
+
+                    <input
+                    className="chekedemail"
+                    type="email"
+                    value={email}
+                    onChange={(e) => {
+                        setEmail(e.target.value);
+                        setStatus("idle");
+                        setMessage("");
+                        setBreaches([]);
+                    }}
+                    placeholder="Enter your email"
+                    disabled={status === "checking"}
+                    />
+
+
+                    <button
+                        type="button"
+                        className="emailbtn"
+                        onClick={validateEmail}
+                        disabled={!email.trim() || status === "checking"}
+                    >
+                        {status === "checking" ? "Checking..." : "Check Email"}
+                    </button>
+
                 </div>
-            )}
-
-            {status === "invalid" && (
-                <div className="error">{message}</div>
-            )}
-
-            {status === "error" && (
-                <div className="error">{message}</div>
-            )}
-
-            <input
-              className="chekedemail"
-              type="email"
-              value={email}
-              onChange={(e) => {
-                  setEmail(e.target.value);
-                  setStatus("idle");
-                  setMessage("");
-                  setBreaches([]);
-              }}
-              placeholder="Enter your email"
-              disabled={status === "checking"}
-            />
-
-
-             <button
-                type="button"
-                className="emailbtn"
-                onClick={validateEmail}
-                disabled={!email.trim() || status === "checking"}
-            >
-                {status === "checking" ? "Checking..." : "Check Email"}
-            </button>
             </div>
+           
         </section>
+        </>
     );
 }

@@ -3,7 +3,6 @@
     justify-content: center;
     gap: 20px;
     margin-bottom: 60px;
-    flex-wrap: wrap;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
@@ -35,11 +34,19 @@ cursor: pointer;
     backdrop-filter:blur(20px);
     transition:.35s;
     text-align: center;
-    max-height: 75px;
+    max-height: 80px;
     min-width: 280px;
     text-align: center;
     display:flex;
     justify-content:space-around;
+}
+
+.formgenerate{
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 16px;
+    background: rgba(255,255,255,.05);
+    backdrop-filter: blur(15px);
+    padding: 70 100 70 100;
 }
 
 .createpassbtn{
@@ -52,4 +59,15 @@ cursor: pointer;
     font-weight:600;
     cursor:pointer;
     transition:.3s;
+}
+
+@media (max-width: 768px) {
+
+.formgenerate{
+    border: 1px solid rgba(255, 255, 255, 0);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0);
+    backdrop-filter: blur(15px);
+}
+
 }

@@ -134,6 +134,11 @@ export default function FileSecurity() {
     };
 
     return (
+        <>
+        <div className="sectionline"></div>
+        <h4>06</h4>
+        <div className="sectionline"></div>
+
         <section id="filecheck" className="filecheck">
             <h2>File Security</h2>
 
@@ -192,5 +197,6 @@ export default function FileSecurity() {
             Check File
         </button>
         </section>
+        </>
     );
 }

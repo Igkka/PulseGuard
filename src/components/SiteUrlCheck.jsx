@@ -90,100 +90,110 @@ export default function SiteSecurityCheck() {
     };
 
     return (
+        <>
+        <div className="sectionline"></div>
+        <h4>05</h4>
+        <div className="sectionline"></div>
         <section className="siteurlcheck" id="siteurlcheck">
 
-            <h2>Site Security Check</h2>
-            <div className="sitecontent">
-          
-            {status === "checking" && (
-                <p>Checking...</p>
-            )}
+            <div className="formsite">
+            
+                <h2>Site Security Check</h2>
+                <div className="sitecontent">
+            
+                {status === "checking" && (
+                    <p>Checking...</p>
+                )}
 
-            {status === "safe" && (
-                <div className="success">
-                    🟢 {message}
+                {status === "safe" && (
+                    <div className="success">
+                        🟢 {message}
+                    </div>
+                )}
+
+                {status === "suspicious" && (
+                    <div className="warning">
+                        🟡 {message}
+                    </div>
+                )}
+
+                {status === "danger" && (
+                    <div className="error">
+                        🔴 {message}
+                    </div>
+                )}
+
+                {status === "not_found" && (
+                    <div className="info">
+                        ⚪ {message}
+                    </div>
+                )}
+
+                {status === "invalid" && (
+                    <div className="error">
+                        {message}
+                    </div>
+                )}
+
+                {status === "error" && (
+                    <div className="error">
+                        {message}
+                    </div>
+                )}
+
+                {stats && (
+                    <div className="scanStats">
+                        <p>
+                            Harmless: {stats.harmless}
+                        </p>
+
+                        <p>
+                            Malicious: {stats.malicious}
+                        </p>
+
+                        <p>
+                            Suspicious: {stats.suspicious}
+                        </p>
+
+                        <p>
+                            Undetected: {stats.undetected}
+                        </p>
+                    </div>
+                )}
+                <input
+                    type="url"
+                    className="checkedsite"
+                    value={url}
+                    onChange={(e) => {
+                        setUrl(e.target.value);
+                        setStatus("idle");
+                        setMessage("");
+                        setStats(null);
+                    }}
+                    placeholder="https://example.com"
+                    disabled={status === "checking"}
+                />
+
+                <button
+                    type="button"
+                    onClick={checkUrl}
+                    className="sitebtn"
+                    disabled={
+                        !url.trim() ||
+                        status === "checking"
+                    }
+                >
+                    {status === "checking"
+                        ? "Checking..."
+                        : "Check URL"}
+                </button>
+
                 </div>
-            )}
 
-            {status === "suspicious" && (
-                <div className="warning">
-                    🟡 {message}
-                </div>
-            )}
+            </div>
 
-            {status === "danger" && (
-                <div className="error">
-                    🔴 {message}
-                </div>
-            )}
-
-            {status === "not_found" && (
-                <div className="info">
-                    ⚪ {message}
-                </div>
-            )}
-
-            {status === "invalid" && (
-                <div className="error">
-                    {message}
-                </div>
-            )}
-
-            {status === "error" && (
-                <div className="error">
-                    {message}
-                </div>
-            )}
-
-            {stats && (
-                <div className="scanStats">
-                    <p>
-                        Harmless: {stats.harmless}
-                    </p>
-
-                    <p>
-                        Malicious: {stats.malicious}
-                    </p>
-
-                    <p>
-                        Suspicious: {stats.suspicious}
-                    </p>
-
-                    <p>
-                        Undetected: {stats.undetected}
-                    </p>
-                </div>
-            )}
-              <input
-                type="url"
-                className="checkedsite"
-                value={url}
-                onChange={(e) => {
-                    setUrl(e.target.value);
-                    setStatus("idle");
-                    setMessage("");
-                    setStats(null);
-                }}
-                placeholder="https://example.com"
-                disabled={status === "checking"}
-            />
-
-            <button
-                type="button"
-                onClick={checkUrl}
-                className="sitebtn"
-                disabled={
-                    !url.trim() ||
-                    status === "checking"
-                }
-            >
-                {status === "checking"
-                    ? "Checking..."
-                    : "Check URL"}
-            </button>
-
-        </div>
 
         </section>
+        </>
     );
 }

@@ -4,6 +4,7 @@ import PassStorage from "@/components/PasswordStorage"
 import GeneratePass from "@/components/GeneratePass"
 import UserBalance from "@/components/Balance"
 import CheckPass from "@/components/CheckPass"
+import WelcomePage from "@/components/WelcomePage"
 import { Database } from 'lucide-react';
 import { RotateCcwKey } from 'lucide-react';
 import { NotebookPen } from 'lucide-react';
@@ -23,6 +24,7 @@ export default function FreePage(){
    
    <Navbar/>
    <UserBalance/>
+   <WelcomePage/>
    <PassStorage/>
    <GeneratePass/>
    <CheckPass/>

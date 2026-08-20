@@ -41,12 +41,23 @@ export default function GeneratePass(){
     }
 
     return(
+        <>
+        <div className="sectionline"></div>
+        <h4>02</h4>
+        <div className="sectionline"></div>
         <section className="genpass" id="genpass">
-            <h2>Generate Password</h2>
-            <div className="genpasscontent">
-                <p className="newgenpass">{newPassword === "" ? "Your Password Here" : newPassword} <Copy className="copybtn" onClick={handleCopy}/></p>
-                <button className="createpassbtn" onClick={handleGenerate}>Generate</button>
+
+            <div className="formgenerate">
+            
+                <h2>Generate Password</h2>
+                <div className="genpasscontent">
+                    <p className="newgenpass">{newPassword === "" ? "Your Password Here" : newPassword} <Copy className="copybtn" onClick={handleCopy}/></p>
+                    <button className="createpassbtn" onClick={handleGenerate}>Generate</button>
+                </div>
+
             </div>
+
         </section>
+        </>
     )
 }

@@ -3,7 +3,6 @@
     justify-content: center;
     gap: 20px;
     margin-bottom: 60px;
-    flex-wrap: wrap;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
@@ -42,6 +41,14 @@
     transition: .3s;
 }
 
+.formcheck{
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 16px;
+    background: rgba(255,255,255,.05);
+    backdrop-filter: blur(15px);
+    padding: 70 100 70 100;
+}
+
 .checkpassbtn{
     padding:16px 28px;
     border:none;
@@ -52,4 +59,16 @@
     font-weight:600;
     cursor:pointer;
     transition:.3s;
+}
+
+@media (max-width: 768px) {
+
+.formcheck{
+    border: 1px solid rgba(255, 255, 255, 0);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0);
+    backdrop-filter: blur(15px);
+
+}
+
 }

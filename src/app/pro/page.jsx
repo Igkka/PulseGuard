@@ -7,6 +7,7 @@ import CheckPass from "@/components/CheckPass"
 import EmailValidator from "@/components/Email"
 import SiteSecurityCheck from "@/components/SiteUrlCheck"
 import CheckingFile from "@/components/CheckingFile"
+import WelcomePage from "@/components/WelcomePage"
 import { Database } from 'lucide-react';
 import { RotateCcwKey } from 'lucide-react';
 import { NotebookPen } from 'lucide-react';
@@ -32,6 +33,7 @@ export default function ProPage(){
    
    <Navbar/>
    <UserBalance/>
+   <WelcomePage/>
    <PassStorage/>
    <GeneratePass/>
    <CheckPass/>
