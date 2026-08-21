@@ -169,8 +169,10 @@
   .formgenerate {
     width: 100%;
     padding: 30px 20px;
-    border-color: rgba(255, 255, 255, 0.08);
-    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0);
+    backdrop-filter: blur(15px);
   }
 
   .newgenpass {

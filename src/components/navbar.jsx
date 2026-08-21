@@ -4,6 +4,7 @@ import "./style/navbar.css";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { DEFAULT_AVATAR, getSession, logout } from "@/lib/auth";
+import { LogOut } from 'lucide-react';
 
 export default function Navbar() {
   const [session, setSession] = useState({
@@ -28,7 +29,7 @@ export default function Navbar() {
   return (
     <header>
       <nav className="navbar">
-        <div className="logo">PulseGuard</div>
+        <a href="/" className="logo">PulseGuard</a>
 
         <button
           className="mobile-menu-btn"
@@ -70,7 +71,7 @@ export default function Navbar() {
             </div>
 
             <button type="button" className="logout-btn" onClick={handleLogout}>
-              Log out
+              <LogOut/>
             </button>
           </div>
         ) : (
